@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -54,7 +54,7 @@ class UserRoute extends Model
 
     protected $fillable = [
         'user_id','route_id','start_at','mobile','name_first','name_second','id_card_first',
-        'id_card_second','remark'
+        'id_card_second','remark','status',
     ];
 
     protected $appends = [

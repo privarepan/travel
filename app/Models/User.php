@@ -238,6 +238,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(UserRoute::class);
     }
 
+    public function userRouteFinished()
+    {
+        return $this->hasMany(UserRoute::class)->where('status', 1);
+    }
+
     public function canWithdraw($amount)
     {
         return bcsub($this->balance, $this->freeze, 2) >= $amount;

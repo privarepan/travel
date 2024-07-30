@@ -21,11 +21,13 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('orders', [\App\Http\Controllers\OrderController::class, 'index']);
     //行程订单
     Route::get('user-routes',[\App\Http\Controllers\UserRouteController::class, 'index']);
+    Route::middleware('authentication')->group(function () {
+        Route::post('order', [\App\Http\Controllers\OrderController::class, 'store']);
+        Route::post('withdraw', [\App\Http\Controllers\WithdrawController::class, 'store']);
+    });
     //加入自费套餐
-    Route::post('order', [\App\Http\Controllers\OrderController::class, 'store']);
     //提现记录
     Route::get('withdraws', [\App\Http\Controllers\WithdrawController::class, 'index']);
-    Route::post('withdraw', [\App\Http\Controllers\WithdrawController::class, 'store']);
     //收益记录
     Route::get('rewards', [\App\Http\Controllers\RewardController::class, 'index']);
     //我的团队

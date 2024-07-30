@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::middleware('authentication')->group(function () {
         Route::post('order', [\App\Http\Controllers\OrderController::class, 'store']);
         Route::post('withdraw', [\App\Http\Controllers\WithdrawController::class, 'store']);
+        Route::post('user-route',[\App\Http\Controllers\UserRouteController::class, 'store']);
     });
     //加入自费套餐
     //提现记录

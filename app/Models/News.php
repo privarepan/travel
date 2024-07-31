@@ -15,6 +15,10 @@ class News extends Model
         'cover_url',
     ];
 
+    protected $casts = [
+        'cover' => 'array',
+    ];
+
     use HasFactory;
 
 

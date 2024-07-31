@@ -62,7 +62,6 @@ class NewsResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextInputColumn::make('sort')
                     ->label('排序')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('remark')
                     ->searchable(),

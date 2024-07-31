@@ -50,6 +50,7 @@ class UserController extends Controller
         $path = $user->path;
         $team_amount = User::where('path', 'like', "%$path%")
             ->withSum('orderCompleted','amount')
+            ->get()
             ->sum('order_completed_sum_amount');
 
         $team_total_amount = User::where('path', 'like', "%$path%")

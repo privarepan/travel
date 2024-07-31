@@ -53,3 +53,7 @@ Route::get('city/tag', [\App\Http\Controllers\RouteController::class, 'city']);
 Route::get('captcha/{config?}', [\App\Http\Controllers\CaptchaController::class, 'getCaptchaApi']);
 
 Route::any('notify/order', [\App\Http\Controllers\NotifyController::class, 'order']);
+
+Route::get('news', [\App\Http\Controllers\NewsController::class, 'index']);
+
+Route::get('news/{news}', [\App\Http\Controllers\NewsController::class, 'show']);

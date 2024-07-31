@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Facades\HmPay;
+use App\Models\Order;
+use App\Models\RechargeOrder;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -48,6 +50,12 @@ class OrderController extends Controller
 
         return $this->error('充值下单失败', data: $response->json());
 
+    }
+
+    public function show($order_no)
+    {
+        $order = Order::whereOrderNo($order_no)->first();
+        return $this->success($order,'请求成功');
     }
 
 }

@@ -51,3 +51,5 @@ Route::post('login', [\App\Http\Controllers\LoginController::class, 'login']);
 Route::get('city/tag', [\App\Http\Controllers\RouteController::class, 'city']);
 
 Route::get('captcha/{config?}', [\App\Http\Controllers\CaptchaController::class, 'getCaptchaApi']);
+
+Route::any('notify/order', [\App\Http\Controllers\NotifyController::class, 'order']);

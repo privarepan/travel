@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Packages\HmPay\HmPay;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Ofcold\IdentityCard\IdentityCard;
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton('hmpay',function (){
+            $config = config('hmp');
+            return new HmPay($config);
+        });
     }
 
     /**

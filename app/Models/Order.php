@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $user_id
@@ -45,11 +45,14 @@ class Order extends Model
     public function notify()
     {
         $this->status =1;
+        $this->consume_at = now();
         $this->save();
         $this->user->up();//todo 用户升级
         $this->give(); //todo 给予用户奖励
         return $this;
     }
+
+
 
     public function give()
     {

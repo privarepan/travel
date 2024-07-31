@@ -34,7 +34,7 @@ class UserController extends Controller
 
     public function show()
     {
-        return $this->success(['user',auth()->user()]);
+        return $this->success(['user' => auth()->user()]);
     }
 
     public function team()

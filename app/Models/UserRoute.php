@@ -61,6 +61,11 @@ class UserRoute extends Model
         'status_label'
     ];
 
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->getDateFormat());
+    }
+
     public function route()
     {
         return $this->belongsTo(Route::class);

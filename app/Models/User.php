@@ -115,6 +115,11 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->getDateFormat());
+    }
+
     public function children()
     {
         return $this->hasMany(static::class, 'pid');

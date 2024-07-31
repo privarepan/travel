@@ -52,7 +52,10 @@ class Order extends Model
         return $this;
     }
 
-
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->getDateFormat());
+    }
 
     public function give()
     {

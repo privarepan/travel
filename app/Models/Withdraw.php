@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -41,6 +41,11 @@ class Withdraw extends Model
     protected $fillable = [
         'user_id','amount','account','pay_type','name','bank_name','status'
     ];
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->getDateFormat());
+    }
 
     public function user()
     {

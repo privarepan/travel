@@ -19,6 +19,11 @@ class News extends Model
         'cover' => 'array',
     ];
 
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->getDateFormat());
+    }
+
     use HasFactory;
 
 

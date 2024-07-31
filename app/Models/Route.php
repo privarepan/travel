@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $title
@@ -46,6 +46,11 @@ class Route extends Model
     protected $casts = [
         'cover' => 'array',
     ];
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->getDateFormat());
+    }
 
     public function getCoverUrlAttribute()
     {

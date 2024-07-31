@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Facades\HmPay;
 use App\Models\Order;
-use App\Models\RechargeOrder;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller

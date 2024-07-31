@@ -57,3 +57,5 @@ Route::any('notify/order', [\App\Http\Controllers\NotifyController::class, 'orde
 Route::get('news', [\App\Http\Controllers\NewsController::class, 'index']);
 
 Route::get('news/{news}', [\App\Http\Controllers\NewsController::class, 'show']);
+
+Route::post('store/upload', [\App\Http\Controllers\StoreController::class, 'upload']);

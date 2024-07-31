@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -26,8 +27,8 @@ class UserController extends Controller
         }
         $user->update($request->only('name', 'id_card') + ['state' => 0]);
         $user->clearMediaCollection('authentication');
-        $user->addMedia($request->img_a)->toMediaCollection('authentication');
-        $user->addMedia($request->img_b)->toMediaCollection('authentication');
+        $user->addMedia(Storage::path($request->img_a))->toMediaCollection('authentication');
+        $user->addMedia(Storage::path($request->img_b))->toMediaCollection('authentication');
         return $this->success($user);
     }
 

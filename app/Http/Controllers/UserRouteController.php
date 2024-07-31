@@ -27,6 +27,9 @@ class UserRouteController extends Controller
             'remark' => 'nullable|string',
         ];
         $data = $request->validate($rules);
+        if (!$user->is_member) {
+            return $this->error('请先申请会员');
+        }
         $user->loadCount('userRouteFinished');
         if ($user->user_route_finished_count >= 4) {
             return $this->error('预约次数上限');

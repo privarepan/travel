@@ -17,7 +17,7 @@ class LoginController extends Controller
             'mobile' => 'required',
             'code' => 'required',
             'captcha_code' => 'required|captcha_api:'. $request->key . ',math',
-            'invite_code' => 'required',
+            'invite_code' => 'required|exists:users',
             'password' => ['required', Password::defaults(),'confirmed'],
         ];
         $msg = [
@@ -26,6 +26,7 @@ class LoginController extends Controller
             'captcha_code.required' => '图形验证码 不能为空',
             'captcha_code.captcha_api' => '图形验证码 错误',
             'invite_code.required' => '邀请码 不能为空',
+            'invite_code.exists' => '邀请码 不存在'
 //            'invite_code.' => '邀请码 不能为空',
         ];
         $request->validate($rules,$msg);

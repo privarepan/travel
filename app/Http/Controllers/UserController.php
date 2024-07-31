@@ -21,7 +21,7 @@ class UserController extends Controller
          * @var $user User
          */
         $user = auth()->user();
-        if ($user->state === 0) {
+        if ($user->state === 1) {
             return $this->error('请不要重复提交');
         }
         $user->update($request->only('name', 'id_card') + ['state' => 0]);

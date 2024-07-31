@@ -14,8 +14,8 @@ class UserController extends Controller
         $rules = [
             'name' => 'required|string|min:1',
             'id_card' => 'required|id_card',
-            'img_a' => 'required|image',
-            'img_b' => 'required|image',
+            'img_a' => 'required|string',
+            'img_b' => 'required|string',
         ];
         $request->validate($rules);
         /**

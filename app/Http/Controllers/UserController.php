@@ -27,8 +27,8 @@ class UserController extends Controller
         }
         $user->update($request->only('name', 'id_card') + ['state' => 0]);
         $user->clearMediaCollection('authentication');
-        $user->addMedia(Storage::path($request->img_a))->toMediaCollection('authentication');
-        $user->addMedia(Storage::path($request->img_b))->toMediaCollection('authentication');
+        $user->addMedia(Storage::disk('public')->path($request->img_a))->toMediaCollection('authentication');
+        $user->addMedia(Storage::disk('public')->path($request->img_b))->toMediaCollection('authentication');
         return $this->success($user);
     }
 

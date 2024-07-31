@@ -14,7 +14,7 @@ class LoginController extends Controller
     {
         $rules = [
             'key' => 'required',
-            'mobile' => 'required',
+            'mobile' => 'required|mobile',
             'code' => 'required',
             'captcha_code' => 'required|captcha_api:'. $request->key . ',math',
             'invite_code' => 'required|exists:users',

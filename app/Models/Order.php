@@ -57,6 +57,11 @@ class Order extends Model
         return $date->format($this->getDateFormat());
     }
 
+    public function isPaid()
+    {
+        return $this->status === 0;
+    }
+
     public function give()
     {
         return Role::make()->give($this->user,$this->amount);

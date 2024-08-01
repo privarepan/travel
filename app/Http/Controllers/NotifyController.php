@@ -17,6 +17,7 @@ class NotifyController extends Controller
         ]);
 
         if (!HmPay::verifySign($request->all())) {
+            Log::channel('hmp')->debug('error-sign');
             throw new \LogicException('签名未通过');
         }
 

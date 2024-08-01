@@ -258,9 +258,9 @@ class User extends Authenticatable implements HasMedia
         $this->decrement('freeze', $amount);
     }
 
-    public static function getInviteCode()
+    public static function getInviteCode(int $length = 8)
     {
-        $code = random_int(10000000, 99999999);
+        $code = Str::random($length);
         if (static::where('invite_code', $code)->exists()) {
             return static::getInviteCode();
         }

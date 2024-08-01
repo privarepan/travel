@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (AuthenticationException $e, Request $request) {
             if ($request->expectsJson()) {
-                return $this->error(401,[],'请登录后进行该操作');
+                return $this->error('请登录后进行该操作',401);
             }
         });
 

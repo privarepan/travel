@@ -38,7 +38,7 @@ class LoginController extends Controller
             'is_member' => 0,
             'phone' => $request->mobile,
             'password' => $request->password,
-            'invite_code' => Str::uuid(),
+            'invite_code' => User::getInviteCode(),
         ]);
         $children->path = $user->path.$children->id.'-';
         $children->save();

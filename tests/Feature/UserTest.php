@@ -31,7 +31,7 @@ class UserTest extends TestCase
     public function test_1()
     {
        $user = User::query()->forceCreate([
-            'name' => fake()->unique()->name,
+            'name' => 'root',
             'id_card' => fake()->unique()->creditCardNumber,
             'pid' => 0,
             'level' => 1,
@@ -40,7 +40,7 @@ class UserTest extends TestCase
             'phone' => fake()->unique()->phoneNumber,
             'email' => fake()->unique()->email,
             'password' => fake()->password,
-            'invite_code' => Str::uuid(),
+            'invite_code' => User::getInviteCode(),
             'status' => 1,
         ]);
 

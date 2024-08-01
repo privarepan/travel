@@ -28,7 +28,7 @@ class OrderController extends Controller
             'order_no' => uniqid('yy',''),
         ]);
 
-        /*$post = [
+        $post = [
             'pay_way' => 'AUTO',
             'create_ip' => $request->ip(),
             'create_time' => now()->format('YmdHis'),
@@ -45,7 +45,7 @@ class OrderController extends Controller
             return $this->success(
                 json_decode($response->json('data'),true)
             );
-        }*/
+        }
         $order->notify();
         return $this->success($order);
 

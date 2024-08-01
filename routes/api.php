@@ -19,6 +19,8 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('user', [\App\Http\Controllers\UserController::class, 'show']);
     //订单列表
     Route::get('orders', [\App\Http\Controllers\OrderController::class, 'index']);
+
+    Route::get('order/{order_no}', [\App\Http\Controllers\OrderController::class, 'show']);
     //行程订单
     Route::get('user-routes',[\App\Http\Controllers\UserRouteController::class, 'index']);
     Route::middleware('authentication')->group(function () {

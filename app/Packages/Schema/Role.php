@@ -101,6 +101,17 @@ class Role
 
     public function give(User $original,$amount = 2999)
     {
+        //直推奖励
+        if ($original->parent->isMember()) {
+            $original->parent->directReward($original);
+        }
+        //间推奖励
+        if ($parent = $original->parent->parent) {
+            if ($parent->isMember()) {
+                $parent->directReward($original);
+            }
+        }
+
         $paths = Str::of($original->parent->path)->trim('-')->explode('-');
         $current = null;
         User::whereIn('id',$paths)

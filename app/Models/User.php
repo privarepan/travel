@@ -266,4 +266,63 @@ class User extends Authenticatable implements HasMedia
         }
         return $code;
     }
+
+    public function giveReward(array $data)
+    {
+        $reward = $this->reward()->create($data);
+        $this->increment('balance', $reward->amount);
+        return $reward;
+    }
+
+    public function directReward(User $user,$amount = 800)
+    {
+        $schema = $this->schema();
+        $role_name = $schema->name() ?? '普通会员';
+        $this->giveReward([
+            'phone' => $this->user->phone,
+            'original_id' => $user->getKey(),
+            'original_phone' => $user->phone,
+            'amount' => $amount,
+            'role_rate' => 0,
+            'role_lv' => $schema::LV??0,
+            'rate' => 0,
+            'remark' => "$user->name 成功加入会员 您当前的角色为 $role_name 直推奖励为 $amount ¥"
+        ]);
+    }
+
+    public function indirectReward(User $user,$amount = 400)
+    {
+        $schema = $this->schema();
+        $role_name = $schema->name() ?? '普通会员';
+        if ($this->memberChildren->count() === 5) {
+            $total = $amount*5;
+            $this->user->giveReward([
+                'phone' => $this->user->phone,
+                'original_id' => $user->getKey(),
+                'original_phone' => $user->phone,
+                'amount' => $total,
+                'role_rate' => 0,
+                'role_lv' => $role_name::LV??0,
+                'rate' => 0,
+                'remark' => "$user->name 成功加入会员 您的直推满足5人,间推奖励一次发放 您当前的角色为 {$role_name} 间推奖励为 $total ¥"
+            ]);
+        }
+        if ($this->user->memberChildren->count() > 5) {
+            $this->user->giveReward([
+                'phone' => $this->user->phone,
+                'original_id' => $user->getKey(),
+                'original_phone' => $user->phone,
+                'amount' => $amount,
+                'role_rate' => 0,
+                'role_lv' => $schema::LV??0,
+                'rate' => 0,
+                'remark' => "$user->name 成功加入会员 您的直推超过5人,间推奖励发放中 您当前的角色为 $role_name 间推奖励为 $amount ¥"
+            ]);
+        }
+    }
+
+    public function isMember()
+    {
+        return $this->is_member;
+    }
 }

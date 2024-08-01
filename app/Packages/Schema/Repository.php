@@ -33,7 +33,7 @@ abstract class Repository
         $rate = $original_rate - $oldRate;
         $amount = bcmul($rate, $total, 2);
 
-        $this->user->reward()->create([
+        $this->user->giveReward([
             'phone' => $this->user->phone,
             'original_id' => $user->getKey(),
             'original_phone' => $user->phone,
@@ -41,7 +41,7 @@ abstract class Repository
             'role_rate' => $original_rate,
             'role_lv' => static::LV,
             'rate' => $rate,
-            'remark' => "$user->name 成功加入会员 您当前的角色为 [{$this->name()} 当前分成比例为 [$original_rate] 实际分成比例为 [$rate]"
+            'remark' => "$user->name 成功加入会员 您当前的角色为 {$this->name()} 当前分成比例为 [$original_rate] 实际分成比例为 [$rate]"
         ]);
 
     }

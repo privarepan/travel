@@ -108,7 +108,7 @@ class Role
         //间推奖励
         if ($parent = $original->parent->parent) {
             if ($parent->isMember()) {
-                $parent->directReward($original);
+                $parent->indirectReward($original);
             }
         }
 

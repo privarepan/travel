@@ -137,7 +137,7 @@ class User extends Authenticatable implements HasMedia
                 'phone' => fake()->unique()->phoneNumber,
                 'email' => fake()->unique()->email,
                 'password' => fake()->password,
-                'invite_code' => Str::random(),
+                'invite_code' => static::getInviteCode(),
                 'status' => 1,
             ]);
             $user->path = $this->path.$user->id.'-';
@@ -203,7 +203,7 @@ class User extends Authenticatable implements HasMedia
 
     public function schema()
     {
-        return Role::make()->schema($this->role_lv);
+        return Role::make()->schema($this);
     }
 
     public function reward()
@@ -277,52 +277,92 @@ class User extends Authenticatable implements HasMedia
     public function directReward(User $user,$amount = 800)
     {
         $schema = $this->schema();
-        $role_name = $schema->name() ?? '普通会员';
-        $this->giveReward([
-            'phone' => $this->user->phone,
-            'original_id' => $user->getKey(),
-            'original_phone' => $user->phone,
-            'amount' => $amount,
-            'role_rate' => 0,
-            'role_lv' => $schema::LV??0,
-            'rate' => 0,
-            'remark' => "$user->name 成功加入会员 您当前的角色为 $role_name 直推奖励为 $amount ¥"
-        ]);
+        $role_name = '普通会员';
+        $role_lv = 0;
+        if ($schema){
+            $role_name = $schema->name();
+            $role_lv = $schema::LV;
+        }
+        if ($this->shouldGive($user, 1)) {
+            $this->giveReward([
+                'phone' => $this->phone,
+                'original_id' => $user->getKey(),
+                'original_phone' => $user->phone,
+                'amount' => $amount,
+                'role_rate' => 0,
+                'role_lv' => $role_lv,
+                'rate' => 0,
+                'type' => 1,
+                'remark' => "$user->name 成功加入会员 您当前的角色为 $role_name 直推奖励为 $amount ¥"
+            ]);
+        }
     }
 
     public function indirectReward(User $user,$amount = 400)
     {
         $schema = $this->schema();
-        $role_name = $schema->name() ?? '普通会员';
-        if ($this->memberChildren->count() === 5) {
-            $total = $amount*5;
-            $this->user->giveReward([
-                'phone' => $this->user->phone,
-                'original_id' => $user->getKey(),
-                'original_phone' => $user->phone,
-                'amount' => $total,
-                'role_rate' => 0,
-                'role_lv' => $role_name::LV??0,
-                'rate' => 0,
-                'remark' => "$user->name 成功加入会员 您的直推满足5人,间推奖励一次发放 您当前的角色为 {$role_name} 间推奖励为 $total ¥"
-            ]);
+        $role_name = '普通会员';
+        $role_lv = 0;
+        if ($schema){
+            $role_name = $schema->name();
+            $role_lv = $schema::LV;
         }
-        if ($this->user->memberChildren->count() > 5) {
-            $this->user->giveReward([
-                'phone' => $this->user->phone,
+        $direct_count = $this->memberChildren->count();
+        $directs = $this->memberChildren->load('memberChildren');
+        $indirects = $directs->pluck('memberChildren')->collapse();
+        $indirect_count = $indirects->count();
+        /*if ($direct_count === 5) {
+            if ($indirect_count > 0) {
+                $total = $amount * $indirect_count;
+                $this->giveReward([
+                    'phone' => $this->phone,
+                    'original_id' => $user->getKey(),
+                    'original_phone' => $user->phone,
+                    'amount' => $total,
+                    'role_rate' => 0,
+                    'role_lv' => $role_lv,
+                    'rate' => 0,
+                    'remark' => "$user->name 成功加入会员 您的直推满足5人,间推为 $indirect_count 人奖励一次发放 您当前的角色为 {$role_name} 间推奖励为 $total ¥"
+                ]);
+            }
+        }*/
+//        if ($direct_count > 5) {
+        if ($this->shouldGive($user, 2)) {
+            $this->giveReward([
+                'phone' => $this->phone,
                 'original_id' => $user->getKey(),
                 'original_phone' => $user->phone,
                 'amount' => $amount,
                 'role_rate' => 0,
-                'role_lv' => $schema::LV??0,
+                'role_lv' => $role_lv,
                 'rate' => 0,
-                'remark' => "$user->name 成功加入会员 您的直推超过5人,间推奖励发放中 您当前的角色为 $role_name 间推奖励为 $amount ¥"
+                'type' => 2,
+                'remark' => "$user->name 成功加入会员 您的直推人数为 $direct_count ,间推第 $indirect_count 人奖励发放中 您当前的角色为 $role_name 间推奖励为 $amount ¥"
             ]);
         }
+
+
+//        }
+    }
+
+    public function shouldGive(User $user,$type = 3)
+    {
+        return !$this->reward()
+            ->where('original_id', $user->getKey())
+            ->where('type',$type)
+            ->first();
     }
 
     public function isMember()
     {
         return $this->is_member;
+    }
+
+    public function upgradeMember()
+    {
+        $this->up();
+        $this->refresh();
+        Role::make()->give($this);
+        return $this;
     }
 }

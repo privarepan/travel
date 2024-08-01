@@ -49,10 +49,26 @@ class UserTest extends TestCase
 
     public function test_chiren()
     {
-        /*$user = User::first();
-        $users = $user->createChildren(5);
-        $users->each->createChildren(5);*/
-        User::whereLevel(3)->get()->each->createChildren(5);
+//        $user = User::find(8);
+//        $users = $user->createChildren(5);
+//        $users->each->createChildren(5);
+        User::whereLevel(5)->get()->each->createChildren(5);
+    }
+
+    public function test_member()
+    {
+        DB::listen(function (QueryExecuted $query){
+            Str::of($query->sql)->replaceArray('?',$query->bindings)->dump();
+        });
+        DB::beginTransaction();
+        User::where('is_member',0)
+            ->where('pid','<>',0)
+            ->with('parent.parent')
+            ->orderBy('id')
+            ->get()
+            ->each
+            ->upgradeMember();
+        DB::commit();
     }
 
     public function test_give_member()

@@ -44,8 +44,8 @@ class Reward extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','phone','original_id','original_phone','rate','role_lv','
-        remark','role_rate','amount',
+        'user_id','phone','original_id','original_phone','rate','role_lv',
+        'remark','role_rate','amount','type',
     ];
 
     public function user()

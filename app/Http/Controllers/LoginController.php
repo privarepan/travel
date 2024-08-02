@@ -30,7 +30,11 @@ class LoginController extends Controller
 //            'invite_code.' => '邀请码 不能为空',
         ];
         $request->validate($rules,$msg);
+        if (User::wherePhone($request->mobile)->exists()) {
+            return $this->error('用户已存在');
+        }
         $user = User::whereInviteCode($request->invite_code)->firstOrFail();
+
         $children = $user->children()->create([
             'level' => $user->level+1,
             'pid' => $user->getKey(),

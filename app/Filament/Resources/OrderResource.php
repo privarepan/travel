@@ -64,7 +64,7 @@ class OrderResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('状态')
-                    ->state(fn(Model $record) => match ($record->state){
+                    ->state(fn(Model $record) => match ($record->status){
                         0 => '待支付',
                         1 => '支付成功',
                     })

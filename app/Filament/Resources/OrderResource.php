@@ -27,7 +27,7 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->label('用户')
-                    ->relationship('user','name')
+                    ->relationship('user','phone')
                     ->searchable(['name','id_card','phone','id'])
                     ->preload(),
                 Forms\Components\TextInput::make('order_no')

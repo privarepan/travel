@@ -29,7 +29,7 @@ class UserRouteResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user','name')
+                    ->relationship('user','phone')
                     ->label('预约用户')
                     ->searchable(['name','phone','id_card'])
                     ->preload()

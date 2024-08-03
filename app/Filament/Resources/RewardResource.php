@@ -25,7 +25,7 @@ class RewardResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user','name')
+                    ->relationship('user','phone')
                     ->label('用户名称'),
                 Forms\Components\Select::make('original_id')
                     ->relationship('original','name')

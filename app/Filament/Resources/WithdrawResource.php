@@ -26,7 +26,7 @@ class WithdrawResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user','name')
+                    ->relationship('user','phone')
                     ->required()
                     ->label('用户'),
                 Forms\Components\TextInput::make('amount')

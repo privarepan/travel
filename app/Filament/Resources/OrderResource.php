@@ -26,23 +26,20 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label('用户')
                     ->relationship('user','name')
                     ->searchable(['name','id_card','phone','id'])
-                    ->preload()
-                    ->label('用户'),
+                    ->preload(),
                 Forms\Components\TextInput::make('order_no')
                     ->label('订单号')
                     ->default(Str::orderedUuid()->toString())
-                    ->disabled()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('amount')
                     ->label('金额')
                     ->default(2999)
-                    ->disabled()
                     ->numeric(),
                 Forms\Components\Toggle::make('status')
                     ->label('状态')
-
                     ->columnSpanFull()
                     ->default(0),
             ]);
@@ -111,7 +108,7 @@ class OrderResource extends Resource
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
             'view' => Pages\ViewOrder::route('/{record}'),
-//            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }

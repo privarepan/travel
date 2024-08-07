@@ -104,6 +104,16 @@ class UserResource extends Resource
                     ->label('lv')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('role_lv')->label('角色等级')
+                    ->badge()
+                    ->color(fn(Model $record,$state) => match ($state){
+                        0 => '普通用户',
+                        1 => '团队主管',
+                        2 => '部门经理',
+                        3 => '区域经理',
+                        4 => '区域总裁',
+                        5 => '合伙人',
+                        default => '普通用户'
+                    })
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('phone')->label('手机号')

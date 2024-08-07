@@ -46,8 +46,7 @@ class OrderController extends Controller
                 json_decode($response->json('data'),true)
             );
         }
-        $order->notify();
-        return $this->success($order);
+        return $this->error('充值失败',$response->json());
 
 //        return $this->error('充值下单失败', data: $response->json());
 

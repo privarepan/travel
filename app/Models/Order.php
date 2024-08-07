@@ -47,8 +47,7 @@ class Order extends Model
         $this->status =1;
         $this->consume_at = now();
         $this->save();
-        $this->user->up();//todo 用户升级
-        $this->give(); //todo 给予用户奖励
+        $this->user->upgradeMember();
         return $this;
     }
 
